@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": " tsc | nodemon ./bin/app.js",
+    "dev": " tsc | nodemon ./build/app.js",
     "start": "tsc && node ./dist/app.js",
     "debug": "export DEBUG=* && npm run dev"
   },
