@@ -1,4 +1,3 @@
-
 import express from 'express';
 import usersService from '../services/user.services';
 import debug from 'debug';
@@ -19,6 +18,7 @@ class UsersController {
 
     async createUser(req: express.Request, res: express.Response) {
         const user = await usersService.create(req.body.username)
+        log(user)
         res.status(201).send(user);
     }
 

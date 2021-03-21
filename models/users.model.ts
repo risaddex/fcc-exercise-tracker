@@ -1,7 +1,6 @@
 import debug from 'debug';
-import mongooseService from './mongooseService';
-import { IUser } from './user';
-const log: debug.IDebugger = debug('app');
+import mongooseService from '../services/mongooseService';
+const log: debug.IDebugger = debug('app:user-model');
 
 class User {
   Schema = mongooseService.getMongoose().Schema;
@@ -18,7 +17,10 @@ class User {
 
   async addUser(username: string) {
     const user = new this.User({ username: username });
-    await user.save();
+    await user
+      .save()
+      .then(() => log('user saved'))
+      .catch((err) => `fail to save user: ${err}`);
     return user;
   }
 

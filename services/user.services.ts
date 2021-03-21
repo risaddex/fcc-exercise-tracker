@@ -1,8 +1,15 @@
 import User from '../models/users.model';
+import debug from 'debug';
+
+
+const log: debug.IDebugger = debug('app:user-service');
 
 class UsersService {
+  constructor() {
+    log('requested by user-services')
+  }
+
   async create(resource: string) {
-    console.log(resource)
     return User.addUser(resource);
   }
 
