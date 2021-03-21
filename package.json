@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "tsc -w --pretty | nodemon ./bin/www"
+    "dev": " tsc | nodemon ./bin/app.js",
+    "start": "tsc && node ./dist/app.js",
+    "debug": "export DEBUG=* && npm run dev"
   },
   "dependencies": {
     "debug": "~2.6.9",

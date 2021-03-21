@@ -2,10 +2,14 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "outDir": "./build",
+    "outDir": "./bin",
     "strict": true,
     "esModuleInterop": true,
-    "inlineSourceMap": true
+    "inlineSourceMap": true,
+    "watch": true,
+    "pretty": true,
+    "moduleResolution": "node"
   },
-  "exclude": ["node_modules/**"]
+  "exclude": ["node_modules/**"],
+  "include":["**.ts"]
 }
