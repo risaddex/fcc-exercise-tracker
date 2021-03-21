@@ -14,4 +14,8 @@ router.post(
   }
 );
 
+router.get('/exercice/users', function (req, res) {
+  userControllers.listUsers(req, res);
+});
+
 export default router;

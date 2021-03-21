@@ -5,9 +5,12 @@ const log: debug.IDebugger = debug('app:user-model');
 class User {
   Schema = mongooseService.getMongoose().Schema;
 
-  userSchema = new this.Schema({
-    username: String,
-  });
+  userSchema = new this.Schema(
+    {
+      username: String,
+    },
+    { versionKey: false }
+  );
 
   User = mongooseService.getMongoose().model('Users', this.userSchema);
 
