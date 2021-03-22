@@ -20,7 +20,7 @@ class User {
           {
             description: String,
             duration: Number,
-            date: Date,
+            date: Date ||String
           },
           { _id: false }
         ),

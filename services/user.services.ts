@@ -36,7 +36,7 @@ class UsersService {
   async createExercise(exercise: IExercise) {
     return User.addExercise(exercise)
   }
-
+  
   async getUserLogsById(queryParams: string) {
     return User.getLogsById(queryParams)
   }

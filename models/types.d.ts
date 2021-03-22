@@ -10,5 +10,6 @@ export type IExercise =  {
   userId: string;
   description: String;
   duration: Number;
-  date: Date;
+  date: string;
 }
+

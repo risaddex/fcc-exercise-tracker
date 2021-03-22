@@ -31,11 +31,19 @@ class UsersController {
     req: { body: IExercise },
     res: express.Response
   ) {
-    const exercise = await usersService.createExercise({
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(req.body.date) || req.body.date.length !== 0) {
+      res.send({error: 'Invalid date'})
+      return false
+    }
+    const exercise = await usersService.createEsxercise({
       description: req.body.description,
       userId: req.body.userId,
       duration: req.body.duration,
-      date: new Date(req.body.date) ?? new Date(),
+      date:
+        req.body.date.length > 0
+          ? new Date(req.body.date).toISOString().slice(0, 10)
+          : new Date().toISOString().slice(0, 10),
     })
     res.status(201).send(exercise)
   }
