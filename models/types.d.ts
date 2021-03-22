@@ -13,3 +13,9 @@ export type IExercise =  {
   date: string;
 }
 
+export type ILogParams = {
+  userId?: string;
+  from?: string;
+  to?: string;
+  limit?: Number
+}

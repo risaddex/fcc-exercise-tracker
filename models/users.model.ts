@@ -1,7 +1,7 @@
 import debug from 'debug'
 import { SchemaOptions, Model } from 'mongoose'
 import mongooseService from '../services/mongooseService'
-import { IExercise } from './types';
+import { IExercise, ILogParams } from './types';
 
 const log: debug.IDebugger = debug('app:user-model')
 
@@ -33,17 +33,6 @@ class User {
 
   constructor() {
     log('Created new instance of User')
-  }
-
-  async getLogsById(userId: string | string[]) {
-    return await this.User.findById(userId)
-      .select('_id username exercises')
-      .exec()
-      // @ts-ignore
-      .then(({ _doc: { exercises: logs, username, _id } }) => {
-        return { _id, username, count: logs.length, logs }
-      })
-      .catch((err) => log(err))
   }
 
   async addUser(username: string) {
@@ -105,18 +94,16 @@ class User {
       })
   }
 
-  // async updateUserById(
-  //   userId: string,
-  //   userFields: PatchUserDto | PutUserDto
-  // ) {
-  //   const existingUser = await this.User.findOneAndUpdate(
-  //     { _id: userId },
-  //     { $set: userFields },
-  //     { new: true }
-  //   ).exec();
-
-  //   return existingUser;
-  // }
+  async getLogsById(logParams: ILogParams) {
+    return await this.User.findById(logParams.userId)
+      .select('_id username exercises')
+      .exec()
+      // @ts-ignore
+      .then(({ _doc: { exercises: logs, username, _id } }) => {
+        return { _id, username, count: logs.length, logs }
+      })
+      .catch((err) => log(err))
+  }
 }
 
 export default new User()

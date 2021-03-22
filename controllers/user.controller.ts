@@ -1,7 +1,7 @@
-import express from 'express'
+import express, { query } from 'express'
 import usersService from '../services/user.services'
 import debug from 'debug'
-import { IExercise } from '../models/types'
+import { IExercise, ILogParams } from '../models/types';
 
 const log: debug.IDebugger = debug('app:users-controller')
 
@@ -50,9 +50,9 @@ class UsersController {
     res.status(201).send(exercise)
   }
 
-  async getUserLogs(req: express.Request, res: express.Response) {
-    // @ts-ignore
-    const userLogs = await usersService.getUserLogsById(req.query.userId)
+  async getUserLogs(req: express.Request , res: express.Response) {
+
+    const userLogs = await usersService.getUserLogsById(req.query)
     res.send(userLogs)
   }
 }
