@@ -74,6 +74,7 @@ class User {
     return await this.User.findByIdAndUpdate(
       userId,
       {
+        //@ts-ignore
         $push: {
           exercises: exerciseInfo,
         },

@@ -23,7 +23,7 @@ app.use(cors());
 app.use('/api', usersRouter);
 
 app.get('/', function (req, res, next) {
-  res.sendFile('index.html', { root: path.join(__dirname, '../views') });
+  res.sendFile('index.html', { root: path.join(__dirname, '../src/views') });
 });
 
 server.listen(port, () => {
