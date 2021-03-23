@@ -5,8 +5,8 @@
   "scripts": {
     "build": "tsc",
     "dev": " tsc | nodemon ./build/app.js",
-    "start": "node ./build/app.js",
-    "debug": "export DEBUG=app* && pnpm dev"
+    "start": "npm run build && node ./build/app.js",
+    "debug": "export DEBUG=app* && npm run dev"
   },
   "dependencies": {
     "cors": "^2.8.5",
