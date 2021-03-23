@@ -1,7 +1,7 @@
-import express, { query } from 'express'
+import express from 'express'
 import usersService from '../services/user.services'
 import debug from 'debug'
-import { IExercise, ILogParams } from '../models/types';
+import { ILogParams } from '../models/types'
 
 const log: debug.IDebugger = debug('app:users-controller')
 
@@ -27,12 +27,10 @@ class UsersController {
     res.status(204).send()
   }
 
-  async addExerciseToUser(
-    req: { body: IExercise },
-    res: express.Response
-  ) {
+  async addExerciseToUser(req: express.Request, res: express.Response) {
+    //? Performs a date validation to keep mongoose format
     if (
-      !/^\d{4}-\d{2}-\d{2}$/.test(req.body.date) ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(req.body.date) &&
       req.body.date.length !== 0
     ) {
       res.send({ error: 'Invalid date' })
@@ -43,17 +41,28 @@ class UsersController {
       userId: req.body.userId,
       duration: req.body.duration,
       date:
-        req.body.date.length > 0
-          ? new Date(req.body.date).toISOString().slice(0, 10)
-          : new Date().toISOString().slice(0, 10),
+        req.body.date.length > 0 ? new Date(req.body.date) : new Date(),
     })
     res.status(201).send(exercise)
   }
 
-  async getUserLogs(req: express.Request , res: express.Response) {
+  async getUserLogs(
+    req: express.Request<{}, {}, {}, ILogParams | any>,
+    res: express.Response
+  ) {
+    log (req.query)
+    const QUERY_PARAMS: ILogParams = {
+      userId: req?.query.userId,
+      from: req.query.from ? new Date(req.query.from) : new Date(0),
+      to: req.query.to? new Date(req.query.to) :  new Date(),
+      limit: 100,
+    }
+    log (QUERY_PARAMS)
+    const user = await usersService
+      .getUserLogsById(QUERY_PARAMS)
+      .then((user) => res.send(user))
 
-    const userLogs = await usersService.getUserLogsById(req.query)
-    res.send(userLogs)
+    return user
   }
 }
 

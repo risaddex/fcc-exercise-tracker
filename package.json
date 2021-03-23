@@ -1,10 +1,10 @@
 {
-  "name": "fcc-exercice-tracker",
+  "name": "fcc-exercise-tracker",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": " tsc | nodemon ./build/app.js",
-    "start": "tsc && node ./dist/app.js",
+    "start": "tsc && node ./build/app.js",
     "debug": "export DEBUG=app* && npm run dev"
   },
   "dependencies": {

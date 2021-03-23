@@ -6,10 +6,8 @@
     "strict": true,
     "esModuleInterop": true,
     "inlineSourceMap": true,
-    "watch": true,
     "moduleResolution": "node",
     "incremental": true
   },
-  "exclude": ["node_modules", "build"],
-  "include":["**.ts"]
+  "include":["src/**/*.ts"]
 }

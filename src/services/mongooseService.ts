@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 import debug from 'debug';
 
+console.log(process.env.DB_URI)
 const log: debug.IDebugger = debug('app:mongoose-service');
 
+require('dotenv').config({ path: __dirname+'/.env' });
 class MongooseService {
   private count = 0;
-  private mongooseOptions: mongoose.ConnectOptions = {
+  private mongooseOptions: mongoose.ConnectionOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,
@@ -24,7 +26,7 @@ class MongooseService {
     log('Attempting MongoDB connection (will retry if needed)');
     mongoose
       .connect(
-        'mongodb://127.0.0.1:27017/?readPreference=primary&appname=mongodb-vscode%200.5.0&ssl=false',
+        process.env.DB_URI || '',
         this.mongooseOptions
       )
       .then(() => {

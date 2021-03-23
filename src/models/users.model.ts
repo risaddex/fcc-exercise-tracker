@@ -1,7 +1,7 @@
 import debug from 'debug'
-import { SchemaOptions, Model } from 'mongoose'
+import { SchemaOptions } from 'mongoose'
 import mongooseService from '../services/mongooseService'
-import { IExercise, ILogParams } from './types';
+import { IExercise, ILogParams, IUser } from './types'
 
 const log: debug.IDebugger = debug('app:user-model')
 
@@ -20,7 +20,7 @@ class User {
           {
             description: String,
             duration: Number,
-            date: Date ||String
+            date: Date || String,
           },
           { _id: false }
         ),
@@ -36,7 +36,7 @@ class User {
   }
 
   async addUser(username: string) {
-    const user = new this.User({ username: username })
+    const user: IUser = new this.User({ username: username })
     await user
       .save()
       .then(() => log('user saved'))
@@ -94,15 +94,27 @@ class User {
       })
   }
 
-  async getLogsById(logParams: ILogParams) {
-    return await this.User.findById(logParams.userId)
-      .select('_id username exercises')
-      .exec()
-      // @ts-ignore
-      .then(({ _doc: { exercises: logs, username, _id } }) => {
-        return { _id, username, count: logs.length, logs }
-      })
-      .catch((err) => log(err))
+  async getLogsById(reqParams: ILogParams) {
+    return await this.User.findById(reqParams.userId).then(
+      (user: NonNullable<IUser> | null) => {
+        if (user) {
+          // filter the exercises with the date if it exists
+          const userLogs = user.exercises?.filter(
+            (exercise: IExercise) =>
+              reqParams.from <= exercise.date &&
+              reqParams.to >= exercise.date
+          )
+          return {
+            _id: user._id,
+            username: user.username,
+            count: userLogs?.length,
+            logs: userLogs,
+          }
+        } return {
+          error: 'Invalid user ID'
+        }
+      }
+    )
   }
 }
 

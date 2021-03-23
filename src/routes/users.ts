@@ -1,6 +1,9 @@
+import debug from 'debug'
 import express from 'express'
-const router = express.Router()
 import userControllers from '../controllers/user.controller'
+const router = express.Router()
+
+const log = debug('app:user-routes')
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -18,15 +21,17 @@ router.get('/exercise/users', function (req, res) {
   userControllers.listUsers(req, res)
 })
 
-router.post(
-  '/exercise/add',
-  function (req, res) {
-    userControllers.addExerciseToUser(req, res)
-  }
-)
+router.post('/exercise/add', function (req, res) {
+  userControllers.addExerciseToUser(req, res)
+})
 
 router.get('/exercise/log', function (req, res) {
-  userControllers.getUserLogs(req, res)
+  log(req.query)
+  if (Object.keys(req.query).length === 0) {
+    res.send({ error: 'missing userId' })
+  } else {
+    userControllers.getUserLogs(req, res)
+  }
 })
 
 export default router
