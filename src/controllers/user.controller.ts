@@ -81,6 +81,7 @@ class UsersController {
         res.status(200).send({
           _id,
           username,
+          description,
           duration: Number(duration),
           date: timeDate,
         })
